@@ -1,8 +1,14 @@
 [package]
 name = "type-vec"
+description = "A type-safe vector with type-level length"
 version = "0.1.0"
 authors = ["jerry73204 <jerry73204@gmail.com>"]
 edition = "2018"
+documentation = "https://docs.rs/type-vec/"
+repository = "https://github.com/jerry73204/rust-type-vec.git"
+homepage = "https://github.com/jerry73204/rust-type-vec"
+readme = "README.md"
+license = "MIT"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
