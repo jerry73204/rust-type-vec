@@ -3,7 +3,9 @@ use typenum::consts::*;
 
 #[test]
 fn static_vec_test() {
-    let vec: Vect<usize, U0> = Vect::new();
+    // create vector
+    let vec = Vect::<usize, U0>::new();
+    let _vec = Vect::<usize, Dyn>::new();
 
     // remove or pop on empty vec, none of these compile
     /*
@@ -31,13 +33,15 @@ fn static_vec_test() {
     */
 
     // remove by static index
-    let vec: Vect<usize, U5> = vec.remove(U5::new());
+    let (vec, elem): (Vect<usize, U5>, usize) = vec.remove(U5::new());
+    assert_eq!(elem, 6);
     /* this should not compile
-        let vec: Vect<usize, U4> = vec.remove(U5::new());
+        let (vec, elem): (Vect<usize, U4>, usize) = vec.remove(U5::new());
     */
 
     // remove by runtime index
-    let vec: Vect<usize, U4> = vec.remove(4);
+    let (vec, elem): (Vect<usize, U4>, usize) = vec.remove(4);
+    assert_eq!(elem, 5);
 
     // get by static index
     let elem: &usize = vec.get(U0::new());
@@ -70,7 +74,7 @@ fn static_vec_test() {
     let (vec, elem): (Vect<usize, U2>, usize) = vec.pop();
     assert_eq!(elem, 1);
 
-    //into_dyn
+    // switch to dynamic length
     let vec: Vect<usize, Dyn> = vec.into_dyn();
     let vec: Vect<usize, Dyn> = vec.push(2);
     let vec: Vect<usize, Dyn> = vec.push(5);
@@ -98,4 +102,7 @@ fn static_vec_test() {
     assert_eq!(elem, Some(&5));
     let elem: Option<&usize> = vec.get(4);
     assert_eq!(elem, None);
+
+    // switch to static length
+    let _vec: Vect<usize, U4> = vec.into_static().unwrap();
 }
