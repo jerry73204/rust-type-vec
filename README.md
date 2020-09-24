@@ -51,9 +51,9 @@ let (vec, item) = vec.pop();
 /* let vec = vec.pop(); */
 ```
 
-### Zero-abstraction and efficient implementation
+### Zero-cost abstraction and efficient implementation
 
-The design promises zero-abstraction. Whenever the length is known in compile time,
+The design promises zero-cost abstraction. Whenever the length is known in compile time,
 it picks the more efficient implementation.
 Let's see the element accessing using [get](Vect::get). If the index is static,
 The index is checked against the length in compile time, and returns the element directly
