@@ -1,7 +1,10 @@
+//! Defines the size type which value is static or dynamic
+
 use crate::common::*;
 
 // IntoSize
 
+/// The helper trait that converts the input type to a size type.
 pub trait IntoSize
 where
     Self::Output: Size,
@@ -48,6 +51,7 @@ where
 
 // Size
 
+/// Marks the size type.
 pub trait Size {
     fn to_usize(&self) -> usize;
 }
@@ -76,6 +80,7 @@ where
 
 // Dyn
 
+/// The dynamic size type. It is used when the size is not known in compile time.
 pub struct Dyn(usize);
 
 // ops

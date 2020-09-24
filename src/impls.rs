@@ -1,3 +1,5 @@
+//! The implementations of vector operations.
+
 use crate::{
     common::*,
     size::{self, Dyn, Size},
@@ -47,6 +49,7 @@ pub use push::{PushImpl, PushImplOp};
 mod push {
     use super::*;
 
+    /// Implements vector appending.
     pub trait PushImpl<Input, Item> {
         type Output;
         fn impl_push(input: Input, elem: Item) -> Self::Output;
@@ -76,6 +79,7 @@ pub use pop::{PopImpl, PopImplOp};
 mod pop {
     use super::*;
 
+    /// Implements dropping an element at the end of vector.
     pub trait PopImpl<Input> {
         type Output;
         fn impl_pop(input: Input) -> Self::Output;
@@ -136,6 +140,7 @@ pub use get::{GetImpl, GetImplOp};
 mod get {
     use super::*;
 
+    /// Implements accessing an vector on vector by type level index.
     pub trait GetImpl<'a, Input, Index> {
         type Output;
         fn impl_get(input: &'a Input, index: Index) -> Self::Output;
@@ -199,6 +204,7 @@ pub use insert::{InsertImpl, InsertImplOp};
 mod insert {
     use super::*;
 
+    /// Implements element insertion to a vector.
     pub trait InsertImpl<Input, Index, Item> {
         type Output;
         fn impl_insert(input: Input, index: Index, item: Item) -> Self::Output;
@@ -228,6 +234,7 @@ pub use remove::{RemoveImpl, RemoveImplOp};
 mod remove {
     use super::*;
 
+    /// Implements element removal from a vector.
     pub trait RemoveImpl<Input, Index> {
         type Output;
         fn impl_remove(input: Input, index: Index) -> Self::Output;
@@ -240,12 +247,15 @@ mod remove {
         Index: Size,
         (): size::DecreaseOne<S> + size::CheckIndex<S, Index>,
     {
-        type Output = Vect<Item, size::DecreaseOneOp<S>>;
+        type Output = (Vect<Item, size::DecreaseOneOp<S>>, Item);
 
         fn impl_remove(input: Vect<Item, S>, index: Index) -> Self::Output {
             let mut data = input.data;
-            data.remove(index.to_usize());
-            <Self::Output as VectFactory<Item>>::from_vec(data)
+            let item = data.remove(index.to_usize());
+            (
+                <Vect<Item, size::DecreaseOneOp<S>> as VectFactory<Item>>::from_vec(data),
+                item,
+            )
         }
     }
 }
